@@ -17,16 +17,6 @@
  */
 package storm.starter.bolt;
 
-import twitter4j.FilterQuery;
-import twitter4j.StallWarning;
-import twitter4j.Status;
-import twitter4j.StatusDeletionNotice;
-import twitter4j.StatusListener;
-import twitter4j.TwitterStream;
-import twitter4j.TwitterStreamFactory;
-import twitter4j.auth.AccessToken;
-import twitter4j.conf.ConfigurationBuilder;
-
 import backtype.storm.topology.BasicOutputCollector;
 import backtype.storm.topology.OutputFieldsDeclarer;
 import backtype.storm.topology.base.BaseBasicBolt;
@@ -34,12 +24,10 @@ import backtype.storm.tuple.Tuple;
 
 
 public class PrinterBolt extends BaseBasicBolt {
-  Status st; 
 
   @Override
   public void execute(Tuple tuple, BasicOutputCollector collector) {
     System.out.println(tuple);
-    
   }
 
   @Override

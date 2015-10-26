@@ -21,7 +21,6 @@ package storm.starter.spout;
 import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import storm.starter.bolt.TotalRankingsBolt;
 import twitter4j.FilterQuery;
 import twitter4j.StallWarning;
 import twitter4j.Status;
@@ -41,8 +40,6 @@ import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Values;
 import backtype.storm.utils.Utils;
 
-import org.apache.log4j.Logger;
-
 @SuppressWarnings("serial")
 public class TwitterSampleSpout extends BaseRichSpout {
 
@@ -54,10 +51,6 @@ public class TwitterSampleSpout extends BaseRichSpout {
 	String accessToken;
 	String accessTokenSecret;
 	String[] keyWords;
-
-	double usa[][]={{-125.0011, 24.9493}, {-66.9326,49.5904}};
-	
-	private static final Logger LOG = Logger.getLogger(TwitterSampleSpout.class);
 
 	public TwitterSampleSpout(String consumerKey, String consumerSecret,
 			String accessToken, String accessTokenSecret, String[] keyWords) {
@@ -126,9 +119,8 @@ public class TwitterSampleSpout extends BaseRichSpout {
 
 		else {
 
-			FilterQuery query = new FilterQuery().locations(usa);
+			FilterQuery query = new FilterQuery().track(keyWords);
 			twitterStream.filter(query);
-			
 		}
 
 	}
@@ -136,12 +128,10 @@ public class TwitterSampleSpout extends BaseRichSpout {
 	@Override
 	public void nextTuple() {
 		Status ret = queue.poll();
-		
 		if (ret == null) {
 			Utils.sleep(50);
 		} else {
-			//_collector.emit(new Values(ret.getText().split(" ")[1]));
-			_collector.emit(new Values(ret.getText()));
+			_collector.emit(new Values(ret));
 
 		}
 	}
@@ -169,9 +159,6 @@ public class TwitterSampleSpout extends BaseRichSpout {
 	@Override
 	public void declareOutputFields(OutputFieldsDeclarer declarer) {
 		declarer.declare(new Fields("tweet"));
-	}
-	Logger getLogger() {
-	    return LOG;
 	}
 
 }

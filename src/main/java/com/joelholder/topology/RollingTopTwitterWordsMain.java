@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package com.joelholder.topologies;
+package com.joelholder.topology;
 
 import backtype.storm.Config;
 import backtype.storm.testing.TestWordSpout;
@@ -24,13 +24,13 @@ import backtype.storm.topology.TopologyBuilder;
 import backtype.storm.tuple.Fields;
 import org.apache.log4j.Logger;
 
-import com.joelholder.bolts.SplitSentences;
+import com.joelholder.bolt.SplitSentences;
+import com.joelholder.spout.TwitterSpout;
 
 import storm.starter.bolt.IntermediateRankingsBolt;
 import storm.starter.bolt.PrinterBolt;
 import storm.starter.bolt.RollingCountBolt;
 import storm.starter.bolt.TotalRankingsBolt;
-import storm.starter.spout.TwitterSampleSpout;
 import storm.starter.util.StormRunner;
 
 /**
@@ -38,9 +38,9 @@ import storm.starter.util.StormRunner;
  * The top N computation is done in a completely scalable way, and a similar approach could be used to compute things
  * like trending topics or trending images on Twitter.
  */
-public class RollingTopWords {
+public class RollingTopTwitterWordsMain {
 
-  private static final Logger LOG = Logger.getLogger(RollingTopWords.class);
+  private static final Logger LOG = Logger.getLogger(RollingTopTwitterWordsMain.class);
   private static final int DEFAULT_RUNTIME_IN_SECONDS = 30;
   private static final int TOP_N = 5;
 
@@ -55,8 +55,12 @@ public class RollingTopWords {
   String accessTokenSecret = "0lBWw5c5cjbg1SrbnOsHMNdBzfGreRUOKyreGLAXK68";
   
   String[] keyWords = {"obama","clinton","biden"};
+  
+  double usa[][]={{-125.0011, 24.9493}, {-66.9326,49.5904}};
+  
+  double geoBox[][]=usa;
 
-  public RollingTopWords(String topologyName) throws InterruptedException {
+  public RollingTopTwitterWordsMain(String topologyName) throws InterruptedException {
     builder = new TopologyBuilder();
     this.topologyName = topologyName;
     topologyConfig = createTopologyConfiguration();
@@ -77,8 +81,8 @@ public class RollingTopWords {
     String intermediateRankerId = "intermediateRanker";
     String totalRankerId = "finalRanker";
     //builder.setSpout(spoutId, new TestWordSpout(), 5);
-    builder.setSpout(spoutId, new TwitterSampleSpout(consumerKey, consumerSecret,
-            accessToken, accessTokenSecret, keyWords));
+    builder.setSpout(spoutId, new TwitterSpout(consumerKey, consumerSecret,
+            accessToken, accessTokenSecret, keyWords, geoBox));
     //builder.setBolt("Splitting", new SplitSentences(), 4).fieldsGrouping(spoutId ,new Fields("tweet"));
     builder.setBolt("Splitting", new SplitSentences(), 4).shuffleGrouping(spoutId);
     builder.setBolt(counterId, new RollingCountBolt(9, 3), 4).fieldsGrouping("Splitting", new Fields("tweet"));
@@ -141,7 +145,7 @@ public class RollingTopWords {
 		    }
 
 		    LOG.info("Topology name: " + topologyName);
-		    RollingTopWords rtw = new RollingTopWords(topologyName);
+		    RollingTopTwitterWordsMain rtw = new RollingTopTwitterWordsMain(topologyName);
 		    if (runLocally) {
 		      LOG.info("Running in local mode");
 		      rtw.runLocally();

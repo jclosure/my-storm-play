@@ -16,11 +16,12 @@
  * limitations under the License.
  */
 
-package storm.starter.spout;
+package com.joelholder.spout;
 
 import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import storm.starter.bolt.TotalRankingsBolt;
 import twitter4j.FilterQuery;
 import twitter4j.StallWarning;
 import twitter4j.Status;
@@ -40,8 +41,10 @@ import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Values;
 import backtype.storm.utils.Utils;
 
+import org.apache.log4j.Logger;
+
 @SuppressWarnings("serial")
-public class TwitterSampleSpout extends BaseRichSpout {
+public class TwitterSpout extends BaseRichSpout {
 
 	SpoutOutputCollector _collector;
 	LinkedBlockingQueue<Status> queue = null;
@@ -51,17 +54,27 @@ public class TwitterSampleSpout extends BaseRichSpout {
 	String accessToken;
 	String accessTokenSecret;
 	String[] keyWords;
+	double[][] geoFencing;
+	
 
-	public TwitterSampleSpout(String consumerKey, String consumerSecret,
-			String accessToken, String accessTokenSecret, String[] keyWords) {
+	private static final Logger LOG = Logger.getLogger(TwitterSpout.class);
+
+	public TwitterSpout(String consumerKey, String consumerSecret,
+			String accessToken, String accessTokenSecret, String[] keyWords, double[][] geoFencing) {
 		this.consumerKey = consumerKey;
 		this.consumerSecret = consumerSecret;
 		this.accessToken = accessToken;
 		this.accessTokenSecret = accessTokenSecret;
 		this.keyWords = keyWords;
+		this.geoFencing = geoFencing;
+	}
+	
+	public TwitterSpout(String consumerKey, String consumerSecret,
+			String accessToken, String accessTokenSecret, String[] keyWords) {
+		this(consumerKey, consumerSecret, accessToken, accessTokenSecret, keyWords, null);
 	}
 
-	public TwitterSampleSpout() {
+	public TwitterSpout() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -119,8 +132,15 @@ public class TwitterSampleSpout extends BaseRichSpout {
 
 		else {
 
-			FilterQuery query = new FilterQuery().track(keyWords);
+			FilterQuery query = new FilterQuery();
+			
+			// query geo if specified
+			if (geoFencing != null)
+				query.locations(geoFencing);
+			
+			// filter for query
 			twitterStream.filter(query);
+			
 		}
 
 	}
@@ -128,10 +148,12 @@ public class TwitterSampleSpout extends BaseRichSpout {
 	@Override
 	public void nextTuple() {
 		Status ret = queue.poll();
+		
 		if (ret == null) {
 			Utils.sleep(50);
 		} else {
-			_collector.emit(new Values(ret));
+			//_collector.emit(new Values(ret.getText().split(" ")[1]));
+			_collector.emit(new Values(ret.getText()));
 
 		}
 	}
@@ -159,6 +181,9 @@ public class TwitterSampleSpout extends BaseRichSpout {
 	@Override
 	public void declareOutputFields(OutputFieldsDeclarer declarer) {
 		declarer.declare(new Fields("tweet"));
+	}
+	Logger getLogger() {
+	    return LOG;
 	}
 
 }

@@ -1,4 +1,4 @@
-package com.joelholder.bolts;
+package com.joelholder.bolt;
 
 import java.util.Map;
 

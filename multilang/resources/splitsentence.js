@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -15,23 +15,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package storm.starter.bolt;
 
-import backtype.storm.topology.BasicOutputCollector;
-import backtype.storm.topology.OutputFieldsDeclarer;
-import backtype.storm.topology.base.BaseBasicBolt;
-import backtype.storm.tuple.Tuple;
+/**
+ * Bolt example - receives sentence and breaks it into words.
+ */
 
+var storm = require('./storm');
+var BasicBolt = storm.BasicBolt;
 
-public class PrinterBolt extends BaseBasicBolt {
+function SplitSentenceBolt() {
+    BasicBolt.call(this);
+};
 
-  @Override
-  public void execute(Tuple tuple, BasicOutputCollector collector) {
-    System.out.println(tuple);
-  }
+SplitSentenceBolt.prototype = Object.create(BasicBolt.prototype);
+SplitSentenceBolt.prototype.constructor = SplitSentenceBolt;
 
-  @Override
-  public void declareOutputFields(OutputFieldsDeclarer ofd) {
-  }
-
+SplitSentenceBolt.prototype.process = function(tup, done) {
+        var self = this;
+        var words = tup.values[0].split(" ");
+        words.forEach(function(word) {
+            self.emit({tuple: [word], anchorTupleId: tup.id}, function(taskIds) {
+                self.log(word + ' sent to task ids - ' + taskIds);
+            });
+        });
+        done();
 }
+
+new SplitSentenceBolt().run();

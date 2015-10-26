@@ -20,13 +20,14 @@ package storm.starter;
 
 import java.util.Arrays;
 
+import com.joelholder.spout.TwitterSpout;
+
 import backtype.storm.Config;
 import backtype.storm.LocalCluster;
 import backtype.storm.topology.TopologyBuilder;
 import backtype.storm.utils.Utils;
 
 import storm.starter.bolt.PrinterBolt;
-import storm.starter.spout.TwitterSampleSpout;
 
 public class PrintSampleStream {        
     public static void main(String[] args) {
@@ -39,7 +40,7 @@ public class PrintSampleStream {
         
         TopologyBuilder builder = new TopologyBuilder();
         
-        builder.setSpout("twitter", new TwitterSampleSpout(consumerKey, consumerSecret,
+        builder.setSpout("twitter", new TwitterSpout(consumerKey, consumerSecret,
                                 accessToken, accessTokenSecret, keyWords));
         builder.setBolt("print", new PrinterBolt())
                 .shuffleGrouping("twitter");

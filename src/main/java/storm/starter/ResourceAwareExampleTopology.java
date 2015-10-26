@@ -47,7 +47,9 @@ public class ResourceAwareExampleTopology {
   public static void main(String[] args) throws Exception {
     TopologyBuilder builder = new TopologyBuilder();
 
-    SpoutDeclarer spout =  builder.setSpout("word", new TestWordSpout(), 10);
+    //TODO: uncomment when GA catches up with this api
+    
+    /*SpoutDeclarer spout =  builder.setSpout("word", new TestWordSpout(), 10);
     //set cpu requirement
     spout.setCPULoad(20);
     //set onheap and offheap memory requirement
@@ -64,10 +66,10 @@ public class ResourceAwareExampleTopology {
     Config conf = new Config();
     conf.setDebug(true);
 
-    /**
+    *//**
      * Use to limit the maximum amount of memory (in MB) allocated to one worker process.
      * Can be used to spread executors to to multiple workers
-     */
+     *//*
     conf.setTopologyWorkerMaxHeapSize(512.0);
 
     if (args != null && args.length > 0) {
@@ -82,6 +84,6 @@ public class ResourceAwareExampleTopology {
       Utils.sleep(10000);
       cluster.killTopology("test");
       cluster.shutdown();
-    }
+    }*/
   }
 }

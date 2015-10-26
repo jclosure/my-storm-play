@@ -225,7 +225,7 @@
 					<includeProjectDependencies>true</includeProjectDependencies>
 					<includePluginDependencies>false</includePluginDependencies>
 					<classpathScope>compile</classpathScope>
-					<mainClass>com.joelholder.topologies.RollingTopWords</mainClass>
+					<mainClass>com.joelholder.topology.RollingTopTwitterWordsMain</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>
