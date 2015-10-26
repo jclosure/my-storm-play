@@ -4,8 +4,8 @@
 	<groupId>com.joelholder</groupId>
 	<artifactId>my-twitter-play</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>My Twitter Play</name>
-	<description>Application to Explore the Twitter API</description>
+	<name>My Storm and Twitter Playground</name>
+	<description>This project is a prototyping bed for real-time NLP work against the twitter firehose.</description>
 
 	<properties>
 		<storm.version>0.10.0-beta1</storm.version>

@@ -13,10 +13,14 @@
 ;; WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 ;; See the License for the specific language governing permissions and
 ;; limitations under the License.
-(ns storm.starter.clj.word-count
+
+(ns com.joelholder.word-count
+
   (:import [backtype.storm StormSubmitter LocalCluster])
   (:use [backtype.storm clojure config])
   (:gen-class))
+
+(:require clojure.pprint/pprint)
 
 (defspout sentence-spout ["sentence"]
   [conf context collector]
@@ -56,7 +60,10 @@
          (swap! counts (partial merge-with +) {word 1})
          (emit-bolt! collector [word (@counts word)] :anchor tuple)
          (ack! collector tuple)
-         )))))
+         ))
+     ;; i added this method to make the word counts echo out
+     (cleanup []
+              (clojure.pprint/pprint counts)))))
 
 (defn mk-topology []
 
