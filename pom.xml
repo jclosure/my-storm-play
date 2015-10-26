@@ -130,6 +130,8 @@
 			<artifactId>multilang-python</artifactId>
 			<version>${storm.version}</version>
 		</dependency>
+		
+		<!--  other -->
 		<dependency>
 			<groupId>commons-collections</groupId>
 			<artifactId>commons-collections</artifactId>
@@ -140,7 +142,11 @@
 			<artifactId>guava</artifactId>
 			<version>19.0-rc2</version>
 		</dependency>
-
+		<dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-core</artifactId>
+            <version>1.3</version>
+        </dependency>
 
 		<!-- kafka -->
 		<dependency>

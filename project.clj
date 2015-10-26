@@ -24,6 +24,7 @@
                  ;; other
                  [commons-collections/commons-collections "3.2.1"]
                  [com.google.guava/guava "19.0-rc2"]
+                 [org.apache.tika/tika-core "1.3"]
 
                  ;; twitter4j stuff
                  [org.twitter4j/twitter4j-core "4.0.4"]

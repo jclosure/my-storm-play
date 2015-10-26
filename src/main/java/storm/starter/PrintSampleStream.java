@@ -28,6 +28,7 @@ import backtype.storm.topology.TopologyBuilder;
 import backtype.storm.utils.Utils;
 
 import storm.starter.bolt.PrinterBolt;
+import twitter4j.FilterQuery;
 
 public class PrintSampleStream {        
     public static void main(String[] args) {
@@ -36,12 +37,18 @@ public class PrintSampleStream {
         String accessToken = args[2]; 
         String accessTokenSecret = args[3];
         String[] arguments = args.clone();
+        
+        // set query
         String[] keyWords = Arrays.copyOfRange(arguments, 4, arguments.length);
-        
+        FilterQuery query = new FilterQuery();
+        query.track(keyWords);
+
+        // build topology
         TopologyBuilder builder = new TopologyBuilder();
-        
+      
         builder.setSpout("twitter", new TwitterSpout(consumerKey, consumerSecret,
-                                accessToken, accessTokenSecret, keyWords));
+                                accessToken, accessTokenSecret, query));
+        
         builder.setBolt("print", new PrinterBolt())
                 .shuffleGrouping("twitter");
                 

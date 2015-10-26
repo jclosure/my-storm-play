@@ -71,19 +71,14 @@ public class StreamReaderService {
 		//stream.sample();
 		
 		// filter keywords
-		/*FilterQuery qry = new FilterQuery();
+/*		FilterQuery qry = new FilterQuery();
 		// String[] keywords = { "football" };
 		String[] keywords = { "barbie", "mlp", "monster high" };
 		qry.track(keywords);
 		stream.filter(qry);*/
 
 		// filter location and language
-		FilterQuery geoQuery = new FilterQuery();
-
-/*		double[][] northernHemisphere = new double[][] { { 0, 0}, { 180, 35 } };
-		double[][] southernHemisphere = new double[][] { { 0, 0 }, { -180, 360 } };
-		double[][] easternHemisphere = new double[][] { { 0, -180 }, { 180, 180 } };
-		double[][] westernHemisphere = new double[][] { { 0, 0 }, { 360, -180 } };*/
+		/*FilterQuery geoQuery = new FilterQuery();
 
 		double[][] westernHemisphere = new double[][] { { -180, -90 }, { 180, 90 } };
 		
@@ -100,32 +95,35 @@ public class StreamReaderService {
 
 		double[][] usa = new double[][] { { -125.0011, 24.9493 }, { -66.9326, 49.5904 } };
 
+		double[][] closeToNorway = new double[][]{new double[]{3.339844, 53.644638},
+            new double[]{18.984375,72.395706
+            }};
+		
 		double northLatitude = 35.2;
 		double southLatitude = 25.2;
 		double westLongitude = 62.9;
 		double eastLongitude = 73.3;
-
 		double[][]  pakistan = {{westLongitude, southLatitude},{eastLongitude, northLatitude}};
 		
 		// geoQuery.locations(cities);
 		//geoQuery.locations(texas);
 		// geoQuery.locations(usa);
-
-		geoQuery.locations(pakistan);
+		// geoQuery.locations(pakistan);
+		geoQuery.locations(closeToNorway);
 		
-		stream.filter(geoQuery);
+		stream.filter(geoQuery);*/
 	   
 	    // filter language
-	    /*String[] english = new String[]{"en"};
+	    String[] english = new String[]{"en"};
 	    String[] spanish = new String[]{"es"};
 	    String[] langs = Stream.of(english, spanish)
 				.flatMap(Stream::of)
 				.toArray(String[]::new);
 	    FilterQuery langQuery = new FilterQuery();
 	    langQuery.language(langs);
-	    String[] keywords = { "obama" };
+	    String[] keywords = { "wine", "vino" };
 	    langQuery.track(keywords);
-	    stream.filter(langQuery);*/
+	    stream.filter(langQuery);
 	    
 	    //non stream
 	    //Query langQuery = new Query("lang:en AND barbie");

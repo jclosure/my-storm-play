@@ -32,6 +32,7 @@ import storm.starter.bolt.PrinterBolt;
 import storm.starter.bolt.RollingCountBolt;
 import storm.starter.bolt.TotalRankingsBolt;
 import storm.starter.util.StormRunner;
+import twitter4j.FilterQuery;
 
 /**
  * This topology does a continuous computation of the top N words that the topology has seen in terms of cardinality.
@@ -58,7 +59,7 @@ public class RollingTopTwitterWordsMain {
   
   double usa[][]={{-125.0011, 24.9493}, {-66.9326,49.5904}};
   
-  double geoBox[][]=usa;
+  double geoFencing[][]=usa;
 
   public RollingTopTwitterWordsMain(String topologyName) throws InterruptedException {
     builder = new TopologyBuilder();
@@ -81,8 +82,15 @@ public class RollingTopTwitterWordsMain {
     String intermediateRankerId = "intermediateRanker";
     String totalRankerId = "finalRanker";
     //builder.setSpout(spoutId, new TestWordSpout(), 5);
+    
+    // build query
+	FilterQuery query = new FilterQuery();
+	query.track(keyWords);
+	query.locations(geoFencing);
+	
+	// build topology
     builder.setSpout(spoutId, new TwitterSpout(consumerKey, consumerSecret,
-            accessToken, accessTokenSecret, keyWords, geoBox));
+            accessToken, accessTokenSecret, query));
     //builder.setBolt("Splitting", new SplitSentences(), 4).fieldsGrouping(spoutId ,new Fields("tweet"));
     builder.setBolt("Splitting", new SplitSentences(), 4).shuffleGrouping(spoutId);
     builder.setBolt(counterId, new RollingCountBolt(9, 3), 4).fieldsGrouping("Splitting", new Fields("tweet"));
@@ -114,16 +122,16 @@ public class RollingTopTwitterWordsMain {
    * {@code
    *
    * # Runs in local mode (LocalCluster), with topology name "slidingWindowCounts"
-   * $ storm jar storm-starter-jar-with-dependencies.jar storm.starter.RollingTopWords
+   * $ storm jar my-twitter-play-jar-with-dependencies.jar com.joelholder.topology.RollingTopTwitterWordsMain
    *
    * # Runs in local mode (LocalCluster), with topology name "foobar"
-   * $ storm jar storm-starter-jar-with-dependencies.jar storm.starter.RollingTopWords foobar
+   * $ storm jar my-twitter-play-jar-with-dependencies.jar com.joelholder.topology.RollingTopTwitterWordsMain foobar
    *
    * # Runs in local mode (LocalCluster), with topology name "foobar"
-   * $ storm jar storm-starter-jar-with-dependencies.jar storm.starter.RollingTopWords foobar local
+   * $ storm jar my-twitter-play-jar-with-dependencies.jar com.joelholder.topology.RollingTopTwitterWordsMain foobar local
    *
    * # Runs in remote/cluster mode, with topology name "production-topology"
-   * $ storm jar storm-starter-jar-with-dependencies.jar storm.starter.RollingTopWords production-topology remote
+   * $ storm jar my-twitter-play-jar-with-dependencies.jar com.joelholder.topology.RollingTopTwitterWordsMain production-topology remote
    * }
    * </pre>
    *

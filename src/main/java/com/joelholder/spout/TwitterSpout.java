@@ -46,6 +46,7 @@ import org.apache.log4j.Logger;
 @SuppressWarnings("serial")
 public class TwitterSpout extends BaseRichSpout {
 
+	public static final String MESSAGE = "message";
 	SpoutOutputCollector _collector;
 	LinkedBlockingQueue<Status> queue = null;
 	TwitterStream _twitterStream;
@@ -53,29 +54,30 @@ public class TwitterSpout extends BaseRichSpout {
 	String consumerSecret;
 	String accessToken;
 	String accessTokenSecret;
-	String[] keyWords;
-	double[][] geoFencing;
 	
+	FilterQuery query;
+	double[][] geoFencing;
 
 	private static final Logger LOG = Logger.getLogger(TwitterSpout.class);
 
 	public TwitterSpout(String consumerKey, String consumerSecret,
-			String accessToken, String accessTokenSecret, String[] keyWords, double[][] geoFencing) {
+			String accessToken, String accessTokenSecret) {
 		this.consumerKey = consumerKey;
 		this.consumerSecret = consumerSecret;
 		this.accessToken = accessToken;
 		this.accessTokenSecret = accessTokenSecret;
-		this.keyWords = keyWords;
-		this.geoFencing = geoFencing;
 	}
 	
 	public TwitterSpout(String consumerKey, String consumerSecret,
-			String accessToken, String accessTokenSecret, String[] keyWords) {
-		this(consumerKey, consumerSecret, accessToken, accessTokenSecret, keyWords, null);
+			String accessToken, String accessTokenSecret, FilterQuery query) {
+		this(consumerKey, consumerSecret, accessToken, accessTokenSecret);
+		this.query = query;
 	}
-
-	public TwitterSpout() {
-		// TODO Auto-generated constructor stub
+	
+	public TwitterSpout(String consumerKey, String consumerSecret,
+			String accessToken, String accessTokenSecret, FilterQuery query, double[][] geoFencing) {
+		this(consumerKey, consumerSecret, accessToken, accessTokenSecret, query);
+		this.geoFencing = geoFencing;
 	}
 
 	@Override
@@ -125,22 +127,18 @@ public class TwitterSpout extends BaseRichSpout {
 		AccessToken token = new AccessToken(accessToken, accessTokenSecret);
 		twitterStream.setOAuthAccessToken(token);
 		
-		if (keyWords.length == 0) {
-
+		// sample if no query provided
+		if (query == null) {
 			twitterStream.sample();
 		}
-
 		else {
 
-			FilterQuery query = new FilterQuery();
-			
 			// query geo if specified
 			if (geoFencing != null)
 				query.locations(geoFencing);
 			
 			// filter for query
 			twitterStream.filter(query);
-			
 		}
 
 	}
