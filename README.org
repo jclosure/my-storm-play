@@ -28,9 +28,12 @@ twitter stream.
 
 *** TwitterFunTopology.main
 
-Rolling sentiment analysis against language-specific dictionaries in
-scoped FilterQuery of twitter stream.  Also, sentiment scores hashtags
-and provides rolling frequency analysis.  
+Captures:
+
+Rolling filtered tweet stream, e.g. keyword tracking, location, language
+Rolling sentiment analysis against language-specific dictionaries  
+Rolling hashtags ranking
+Rolling entity feed ranking
 
 * Run Clojure
 

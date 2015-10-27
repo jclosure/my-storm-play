@@ -12,13 +12,7 @@ import org.apache.commons.lang.StringUtils;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-/**
- * Created with IntelliJ IDEA.
- * User: qadeer
- * Date: 06.09.13
- * Time: 16:38
- * To change this template use File | Settings | File Templates.
- */
+
 public class HashtagExtractionBolt extends BaseRichBolt {
     private OutputCollector _collector;
 

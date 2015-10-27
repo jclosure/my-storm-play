@@ -26,6 +26,7 @@ import org.apache.log4j.Logger;
 
 import com.joelholder.bolt.SplitSentences;
 import com.joelholder.spout.TwitterSpout;
+import com.joelholder.twitter.Constants;
 
 import storm.starter.bolt.IntermediateRankingsBolt;
 import storm.starter.bolt.PrinterBolt;
@@ -50,10 +51,10 @@ public class RollingTopTwitterWordsMain {
   private final Config topologyConfig;
   private final int runtimeInSeconds;
   
-  String consumerKey = "wz4Ax8ULQNfQ0YFtzOJig"; 
-  String consumerSecret = "2YAjI4jvZY4ILc6fdHtj0r02oDTa8TutGNYodEreZbI"; 
-  String accessToken = "293860890-aj7rGubG8CZAD9OkMXcbQFx7UNtVwV8kxgjTXV4s"; 
-  String accessTokenSecret = "0lBWw5c5cjbg1SrbnOsHMNdBzfGreRUOKyreGLAXK68";
+  String consumerKey = Constants.consumerKey;
+  String consumerSecret = Constants.consumerSecret;
+  String accessToken = Constants.accessToken; 
+  String accessTokenSecret = Constants.accessTokenSecret;
   
   String[] keyWords = {"obama","clinton","biden"};
   

@@ -11,13 +11,7 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
-/**
- * Created with IntelliJ IDEA.
- * User: qadeer
- * Date: 06.09.13
- * Time: 16:38
- * To change this template use File | Settings | File Templates.
- */
+
 public class FileWriterBolt extends BaseRichBolt {
     PrintWriter writer;
     int count = 0;
