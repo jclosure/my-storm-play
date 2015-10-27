@@ -30,9 +30,13 @@ twitter stream.
 
 Captures:
 
-Rolling filtered tweet stream, e.g. keyword tracking, location, language
-Rolling sentiment analysis against language-specific dictionaries  
+Rolling filtered tweet stream, e.g. keyword tracking, location,
+language
+
+Rolling sentiment analysis against language-specific dictionaries 
+ 
 Rolling hashtags ranking
+
 Rolling entity feed ranking
 
 * Run Clojure
@@ -40,6 +44,38 @@ Rolling entity feed ranking
 ** Word Count
 
 =word_count.clj= (-main)
+
+** Run The Java Code From Clojure (nRepl)
+
+See: src/main/clojure/com/joelholder/twitter-fun.clj
+
+#+begin_src clojure
+  (ns com.joelholder.twitter-fun
+    (:import [com.joelholder.twitter Constants StreamReaderService]
+             [com.joelholder.topology TwitterFunTopology])
+    (:gen-class)
+    )
+
+
+  (require 'clojure.pprint)
+  (use 'clojure.pprint)
+
+  ;; run the StreamReaderservice
+  (defn run-twitter []
+    (let [service (StreamReaderService.)]
+      (.readTwitterFeed service)
+      (Thread/sleep 60000)
+      ))
+
+  ;; run sentiment and rank analytics toplogy
+  (defn run-topology []
+    (. TwitterFunTopology main (make-array String 0)))
+#+end_src
+
+
+In Emacs, C-c M-n on the above buffer to switch to the namespace.
+Then you can =(run-toplogy)=, etc..
+
 
 * Filtering Examples
 
@@ -51,7 +87,7 @@ Rolling entity feed ranking
 
   //new String[] keywords = {"#wine", "#cabernet", "#chardonnay"};
   //new String[] keywords = {"nfl", "football", "cowboys"};
-  String[] keywords = { "barbie", "my little pony", "monster high" };
+  String[] keywords = { "barbie", "MLP", "monster high" };
 
   qry.track(keywords);
   stream.filter(qry);
@@ -160,14 +196,14 @@ selection makes total sense. #IBMWatson #ibminsight
   double eastLongitude = 73.3;
   double[][]  pakistan = {{westLongitude, southLatitude},{eastLongitude, northLatitude}};
 
-  // set your geofencing
+  // set your geofencing ...
 
   // geoQuery.locations(cities);
   // geoQuery.locations(texas);
-
   // geoQuery.locations(pakistan);
   // geoQuery.locations(usa);
 
+  // let's check on Scandinavia... :)
   geoQuery.locations(closeToNorway);
 
   stream.filter(geoQuery);

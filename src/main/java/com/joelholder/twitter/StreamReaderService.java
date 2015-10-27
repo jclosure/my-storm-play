@@ -3,6 +3,10 @@ package com.joelholder.twitter;
 
 import java.util.stream.Stream;
 
+import org.apache.log4j.Logger;
+
+import com.joelholder.topology.RollingTopTwitterWordsMain;
+
 import twitter4j.FilterQuery;
 import twitter4j.Query;
 import twitter4j.StallWarning;
@@ -15,6 +19,9 @@ import twitter4j.TwitterStream;
 
 
 public class StreamReaderService {
+	
+	public static final Logger LOG = Logger.getLogger(StreamReaderService.class);
+	
 	public void readTwitterFeed() throws TwitterException {
 
 		TwitterStream stream = TwitterStreamBuilderUtil.getStream();
@@ -33,7 +40,9 @@ public class StreamReaderService {
 
 	
 			public void onStatus(Status status) {
+				
 				System.out.println("Got tweet:" + status.getText());
+				
 				TwitterStreamBean bean = new TwitterStreamBean();
 				String username = status.getUser().getScreenName();
 				bean.setUserName(username);

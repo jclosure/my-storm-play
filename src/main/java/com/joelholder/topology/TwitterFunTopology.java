@@ -24,8 +24,6 @@ import com.joelholder.twitter.Constants;
 
 public class TwitterFunTopology {
 
-
-
 	  static String consumerKey = Constants.consumerKey;
 	  static String consumerSecret = Constants.consumerSecret;
 	  static String accessToken = Constants.accessToken; 
@@ -60,12 +58,7 @@ public class TwitterFunTopology {
         // Read
 
         FilterQuery tweetFilterQuery = new FilterQuery();
-        
-        // Filter close to Norway
-       tweetFilterQuery.locations();
-       
-       
-       
+               
         // Filter on hashtags
         // tweetFilterQuery.track(new String[]{"#wine", "#cabernet", "#chardonnay"});
        tweetFilterQuery.track(new String[]{"nfl", "football", "cowboys"});
