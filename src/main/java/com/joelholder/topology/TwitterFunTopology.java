@@ -120,7 +120,7 @@ public class TwitterFunTopology {
             
 	            cluster.submitTopology(topologyName, conf, builder.createTopology());
 	
-	            Utils.sleep(120000);
+	            Utils.sleep(240000);
 	            
 	            cluster.shutdown();
 	            

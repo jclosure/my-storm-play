@@ -12,15 +12,25 @@ your needs.
 
 ** Twitter StreamReaderService
 
-App.main
+*** App.main
+
+General purpose TwitterStreaming service.  Should be injected into
+Twitter Spouts to hook into the firehose.
+
 
 ** Interesting Topologies
 
-RollingTopTwitterWordsMain.main
+*** RollingTopTwitterWordsMain.main
 
-ToplogyMain.main
+Rolling totals of top n words occurring in scoped FilterQuery of
+twitter stream.  
 
-TwitterFunTopology.main
+
+*** TwitterFunTopology.main
+
+Rolling sentiment analysis against language-specific dictionaries in
+scoped FilterQuery of twitter stream.  Also, sentiment scores hashtags
+and provides rolling frequency analysis.  
 
 * Run Clojure
 
