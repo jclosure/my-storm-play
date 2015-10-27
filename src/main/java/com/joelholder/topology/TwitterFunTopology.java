@@ -71,8 +71,10 @@ public class TwitterFunTopology {
        
        
         // Filter on hashtags
-        tweetFilterQuery.track(new String[]{"#wine", "#cabernet", "#chardonnay"});
+        //tweetFilterQuery.track(new String[]{"#wine", "#cabernet", "#chardonnay"});
 
+       tweetFilterQuery.track(new String[]{"nfl", "football", "cowboys"});
+        
         builder.setSpout("spout", new TwitterSpout(consumerKey, consumerSecret, accessToken, accessTokenSecret, tweetFilterQuery), 1);
         builder.setBolt("file-writer", new FileWriterBolt("tweets.txt"), 1).shuffleGrouping("spout");
 
