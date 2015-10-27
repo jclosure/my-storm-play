@@ -46,9 +46,9 @@ and provides rolling frequency analysis.
 
   FilterQuery qry = new FilterQuery();
 
-
-  // String[] keywords = { "wine" };
-  String[] keywords = { "barbie", "mlp", "monster high" };
+  //new String[] keywords = {"#wine", "#cabernet", "#chardonnay"};
+  //new String[] keywords = {"nfl", "football", "cowboys"};
+  String[] keywords = { "barbie", "my little pony", "monster high" };
 
   qry.track(keywords);
   stream.filter(qry);
