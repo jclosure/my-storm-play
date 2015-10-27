@@ -13,6 +13,7 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import com.joelholder.bolt.AverageWindowBolt;
+import com.joelholder.bolt.FeedEntityExtractionBolt;
 import com.joelholder.bolt.FileWriterBolt;
 import com.joelholder.bolt.HashtagExtractionBolt;
 import com.joelholder.bolt.LanguageDetectionBolt;
@@ -85,19 +86,15 @@ public class TwitterFunTopology {
 
         builder.setBolt("hashtags", new HashtagExtractionBolt(), 4).shuffleGrouping("sentiment");
         builder.setBolt("hashtag-counter", new RollingCountBolt(9, 3), 4).fieldsGrouping("hashtags", new Fields("entity"));
-        builder.setBolt("hashtag-intermediate-ranking", new IntermediateRankingsBolt(100), 4).fieldsGrouping("hashtag-counter", new Fields(
-                "obj"));
+        builder.setBolt("hashtag-intermediate-ranking", new IntermediateRankingsBolt(100), 4).fieldsGrouping("hashtag-counter", new Fields("obj"));
         builder.setBolt("hashtag-total-ranking", new TotalRankingsBolt(100)).globalGrouping("hashtag-intermediate-ranking");
         builder.setBolt("hashtag-ranking-print", new FileWriterBolt("HASHTAG_RANKING.txt")).shuffleGrouping("hashtag-total-ranking");
 
-
- /*       builder.setBolt("feeds", new FeedEntityExtractionBolt(), 4).shuffleGrouping("spout");
-        builder.setBolt("feed-counter", new RollingCountBolt(9, 3), 4).fieldsGrouping("feeds", new Fields("entity"));
-        builder.setBolt("feed-intermediate-ranking", new IntermediateRankingsBolt(100), 4).fieldsGrouping("feed-counter", new Fields(
-                "obj"));
-        builder.setBolt("feed-total-ranking", new TotalRankingsBolt(100)).globalGrouping("feed-intermediate-ranking");
-   */
-
+		builder.setBolt("feeds", new FeedEntityExtractionBolt(), 4).shuffleGrouping("spout");
+		builder.setBolt("feed-counter", new RollingCountBolt(9, 3), 4).fieldsGrouping("feeds", new Fields("entity"));
+		builder.setBolt("feed-intermediate-ranking", new IntermediateRankingsBolt(100), 4).fieldsGrouping("feed-counter", new Fields("obj"));
+		builder.setBolt("feed-total-ranking", new TotalRankingsBolt(100)).globalGrouping("feed-intermediate-ranking");
+		builder.setBolt("feed-ranking-print", new FileWriterBolt("FEED_RANKING.txt")).shuffleGrouping("feed-total-ranking");
 
 
         Config conf = new Config();

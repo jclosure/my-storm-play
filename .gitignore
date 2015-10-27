@@ -3,4 +3,5 @@ target/
 .nrepl-port
 AVG_SENTIMENT.txt
 HASHTAG_RANKING.txt
+FEED_RANKING.txt
 tweets.txt
