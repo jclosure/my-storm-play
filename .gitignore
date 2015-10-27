@@ -1,4 +1,6 @@
 target/
 .lein-repl-history
 .nrepl-port
-*.txt
+AVG_SENTIMENT.txt
+HASHTAG_RANKING.txt
+tweets.txt

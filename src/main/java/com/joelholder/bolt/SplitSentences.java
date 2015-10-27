@@ -40,7 +40,7 @@ public class SplitSentences implements IRichBolt {
 	@Override
 	public void declareOutputFields(OutputFieldsDeclarer declarer) {
 		// TODO Auto-generated method stub
-		declarer.declare(new Fields("tweet"));
+		declarer.declare(new Fields("message"));
 		
 	}
 

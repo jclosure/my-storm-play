@@ -34,11 +34,11 @@ public class LanguageDetectionBolt extends BaseRichBolt {
     public void execute(Tuple tuple) {
     	
     	// declared fields can be picked off like this
-    	/*String text = tuple.getStringByField("message");
-        String text = tuple.getStringByField("tweet");*/
+    	String text = tuple.getStringByField("message");
+    	/*String text = tuple.getStringByField("tweet");*/
         
         // opting to grab it from the index here...
-    	String text = tuple.getValue(0).toString();
+    	// String text = tuple.getValue(0).toString();
     	
         String language = "UNKNOWN";
         LanguageIdentifier li = new LanguageIdentifier(text);

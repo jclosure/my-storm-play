@@ -11,9 +11,17 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
-
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Scanner;
 /**
  * Created with IntelliJ IDEA.
  * User: qadeer
@@ -25,11 +33,140 @@ public class SentimentBolt extends BaseRichBolt {
     private OutputCollector _collector;
     private static final Logger LOG = Logger.getLogger(SentimentBolt.class);
 
+    private Map<String, Integer> sentiments = new HashMap<String, Integer>();
+    
+    String lang = "en";
+    //String lang = "no"
 
     @Override
     public void prepare(Map map, TopologyContext topologyContext, OutputCollector outputCollector) {
         _collector = outputCollector;
-        sentiments.put("forlate", -2);
+        
+        try {
+        	
+        	// select language sentiment map based on bolt-level setting above
+        	
+        	if (lang.equals("en"))
+        		buildEnglishSentimentMap();
+        	else if (lang.equals("no"))
+        		buildNorwegianSentimentMap();
+        	
+		} catch (IOException | URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+    }
+
+ 
+
+
+    @Override
+    public void execute(Tuple tuple) {
+        String text = tuple.getStringByField("message");
+        String language = tuple.getStringByField("language");
+        
+        // is the message in the language we are scoring sentiment for?
+        if (StringUtils.equals(language, lang)) {
+            StringTokenizer st = new StringTokenizer(text);
+
+            System.out.println("---- Split by space ------");
+            int numberOfSentiments = 0;
+            int sum = 0;
+            while (st.hasMoreElements()) {
+                String term = (String) st.nextElement();
+
+                if (sentiments.containsKey(term)) {
+                    numberOfSentiments++;
+                    sum += sentiments.get(term);
+                }
+            }
+
+            double sentimentValue = 0;
+            if (numberOfSentiments > 0)
+                sentimentValue = sum / numberOfSentiments;
+
+            _collector.emit(new Values(text, sentimentValue));
+        }
+        // Confirm that this tuple has been treated.
+        _collector.ack(tuple);
+
+    }
+
+    @Override
+    public void declareOutputFields(OutputFieldsDeclarer outputFieldsDeclarer) {
+        outputFieldsDeclarer.declare(new Fields("message", "sentiment-value"));
+    }
+
+    @Override
+    public void cleanup() {
+        super.cleanup();
+
+    }
+    
+    // SENTIMENT STRATEGIES
+    String sentiment_map_resource = "english_sentiments.txt";
+    private void buildEnglishSentimentMap() throws IOException, URISyntaxException {
+    	
+
+    	//Get file from resources folder
+    	ClassLoader classLoader = getClass().getClassLoader();
+    	Path path = Paths.get(classLoader.getResource(sentiment_map_resource).toURI());
+    	File file = path.toFile();
+
+    	try (Scanner scanner = new Scanner(file)) {
+
+    		while (scanner.hasNextLine()) {
+    			
+    			String line = scanner.nextLine();
+    			
+    			try {
+	    			
+	    			String wordPart;
+	        		String polarityPart;
+	        		
+	        		String[] parts = line.split("\\s");
+	        		
+	        		wordPart = parts[0];
+	        		polarityPart = parts[1];
+	        		
+	        		String word = wordPart.split("=")[1];
+	        		String sPolarity = polarityPart.split("=")[1];
+	        		int polarity = 0;
+	        		
+	    			switch (sPolarity) {
+	    			case "positive":
+	    				polarity = 1;
+	    				break;
+	    			case "negative":
+	    				polarity = -1;
+	    				break;
+	    			case "neutral":
+	    				polarity = 0;
+	    				break;
+	    			default:
+	    				polarity = 0;
+	    				break;
+	    			}
+	        	
+	    			sentiments.put(word, polarity);
+    			}
+    			catch (Exception ex) 
+    			{
+    				LOG.error("could not parse line: " + line);
+    			}
+    		}
+
+    		scanner.close();
+
+    	} catch (IOException e) {
+    		e.printStackTrace();
+    	}
+    }
+
+    
+    private void buildNorwegianSentimentMap() {
+    	sentiments.put("forlate", -2);
         sentiments.put("forlater", -2);
         sentiments.put("forlatt", -2);
         sentiments.put("bortført", -1);
@@ -1590,50 +1727,5 @@ public class SentimentBolt extends BaseRichBolt {
         sentiments.put("hyggelig", 2);
         sentiments.put("solstråle", 3);
         sentiments.put("unikum", 3);
-
-    }
-
-    private Map<String, Integer> sentiments = new HashMap<String, Integer>();
-
-
-    @Override
-    public void execute(Tuple tuple) {
-        String text = tuple.getStringByField("message");
-        String language = tuple.getStringByField("language");
-        if (StringUtils.equals(language, "no")) {
-            StringTokenizer st = new StringTokenizer(text);
-
-            System.out.println("---- Split by space ------");
-            int numberOfSentiments = 0;
-            int sum = 0;
-            while (st.hasMoreElements()) {
-                String term = (String) st.nextElement();
-
-                if (sentiments.containsKey(term)) {
-                    numberOfSentiments++;
-                    sum += sentiments.get(term);
-                }
-            }
-
-            double sentimentValue = 0;
-            if (numberOfSentiments > 0)
-                sentimentValue = sum / numberOfSentiments;
-
-            _collector.emit(new Values(text, sentimentValue));
-        }
-        // Confirm that this tuple has been treated.
-        _collector.ack(tuple);
-
-    }
-
-    @Override
-    public void declareOutputFields(OutputFieldsDeclarer outputFieldsDeclarer) {
-        outputFieldsDeclarer.declare(new Fields("message", "sentiment-value"));
-    }
-
-    @Override
-    public void cleanup() {
-        super.cleanup();
-
     }
 }

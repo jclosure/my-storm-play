@@ -178,6 +178,10 @@ Got tweet:@emelieperssson Tack för RT!
 
 * Resources
 
+** Sentiment Dictionaries
+
+http://mpqa.cs.pitt.edu/
+
 ** Twitter
 
 *** Twitter Streaming API

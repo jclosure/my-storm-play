@@ -79,7 +79,7 @@ public class TwitterFunTopology {
         builder.setBolt("language-detection", new LanguageDetectionBolt(), 4).shuffleGrouping("spout");
         builder.setBolt("sentiment", new SentimentBolt(), 4).shuffleGrouping("language-detection");
         builder.setBolt("avg-sentiment", new AverageWindowBolt("sentiment-value"), 4).shuffleGrouping("sentiment");
-        builder.setBolt("avg-sentiment-print", new FileWriterBolt("AVG SENTIMENT.txt")).shuffleGrouping("avg-sentiment");
+        builder.setBolt("avg-sentiment-print", new FileWriterBolt("AVG_SENTIMENT.txt")).shuffleGrouping("avg-sentiment");
 
         builder.setBolt("hashtags", new HashtagExtractionBolt(), 4).shuffleGrouping("sentiment");
         builder.setBolt("hashtag-counter", new RollingCountBolt(9, 3), 4).fieldsGrouping("hashtags", new Fields("entity"));
@@ -114,13 +114,20 @@ public class TwitterFunTopology {
             
             String topologyName = "twitter-fun";
             
-            cluster.submitTopology(topologyName, conf, builder.createTopology());
-
-            Utils.sleep(10000);
+            try {
             
-            cluster.shutdown();
-            
-            cluster.killTopology(topologyName);
+	            cluster.submitTopology(topologyName, conf, builder.createTopology());
+	
+	            Utils.sleep(120000);
+	            
+	            cluster.shutdown();
+	            
+	            cluster.killTopology(topologyName);
+            }
+            catch (Exception ex)
+            {
+            	ex.printStackTrace();
+            }
         }
     }
 }

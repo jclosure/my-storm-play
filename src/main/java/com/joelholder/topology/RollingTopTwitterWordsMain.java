@@ -93,7 +93,7 @@ public class RollingTopTwitterWordsMain {
             accessToken, accessTokenSecret, query));
     //builder.setBolt("Splitting", new SplitSentences(), 4).fieldsGrouping(spoutId ,new Fields("tweet"));
     builder.setBolt("Splitting", new SplitSentences(), 4).shuffleGrouping(spoutId);
-    builder.setBolt(counterId, new RollingCountBolt(9, 3), 4).fieldsGrouping("Splitting", new Fields("tweet"));
+    builder.setBolt(counterId, new RollingCountBolt(9, 3), 4).fieldsGrouping("Splitting", new Fields("message"));
     builder.setBolt(intermediateRankerId, new IntermediateRankingsBolt(TOP_N), 4).fieldsGrouping(counterId, new Fields(
         "obj"));
     builder.setBolt(totalRankerId, new TotalRankingsBolt(TOP_N)).globalGrouping(intermediateRankerId);
