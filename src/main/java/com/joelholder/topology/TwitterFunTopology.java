@@ -71,7 +71,7 @@ public class TwitterFunTopology {
        
        
         // Filter on hashtags
-        tweetFilterQuery.track(new String[]{"#clojure", "#java", "#node"});
+        tweetFilterQuery.track(new String[]{"#wine", "#cabernet", "#chardonnay"});
 
         builder.setSpout("spout", new TwitterSpout(consumerKey, consumerSecret, accessToken, accessTokenSecret, tweetFilterQuery), 1);
         builder.setBolt("file-writer", new FileWriterBolt("tweets.txt"), 1).shuffleGrouping("spout");
@@ -111,11 +111,16 @@ public class TwitterFunTopology {
             conf.setMaxTaskParallelism(3);
 
             LocalCluster cluster = new LocalCluster();
-            cluster.submitTopology("twitter-fun", conf, builder.createTopology());
+            
+            String topologyName = "twitter-fun";
+            
+            cluster.submitTopology(topologyName, conf, builder.createTopology());
 
             Utils.sleep(10000);
-
+            
             cluster.shutdown();
+            
+            cluster.killTopology(topologyName);
         }
     }
 }

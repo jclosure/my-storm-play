@@ -46,7 +46,7 @@ import org.apache.log4j.Logger;
 @SuppressWarnings("serial")
 public class TwitterSpout extends BaseRichSpout {
 
-	public static final String MESSAGE = "message";
+	public static final String MESSAGE = "tweet";
 	SpoutOutputCollector _collector;
 	LinkedBlockingQueue<Status> queue = null;
 	TwitterStream _twitterStream;

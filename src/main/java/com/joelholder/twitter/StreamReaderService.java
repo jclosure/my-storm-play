@@ -78,7 +78,7 @@ public class StreamReaderService {
 		stream.filter(qry);*/
 
 		// filter location and language
-		/*FilterQuery geoQuery = new FilterQuery();
+		FilterQuery geoQuery = new FilterQuery();
 
 		double[][] westernHemisphere = new double[][] { { -180, -90 }, { 180, 90 } };
 		
@@ -95,9 +95,8 @@ public class StreamReaderService {
 
 		double[][] usa = new double[][] { { -125.0011, 24.9493 }, { -66.9326, 49.5904 } };
 
-		double[][] closeToNorway = new double[][]{new double[]{3.339844, 53.644638},
-            new double[]{18.984375,72.395706
-            }};
+		double[][] closeToNorway = new double[][] { new double[] { 3.339844, 53.644638 },
+				new double[] { 18.984375, 72.395706 } };
 		
 		double northLatitude = 35.2;
 		double southLatitude = 25.2;
@@ -111,10 +110,10 @@ public class StreamReaderService {
 		// geoQuery.locations(pakistan);
 		geoQuery.locations(closeToNorway);
 		
-		stream.filter(geoQuery);*/
+		stream.filter(geoQuery);
 	   
 	    // filter language
-	    String[] english = new String[]{"en"};
+	    /*String[] english = new String[]{"en"};
 	    String[] spanish = new String[]{"es"};
 	    String[] langs = Stream.of(english, spanish)
 				.flatMap(Stream::of)
@@ -123,7 +122,7 @@ public class StreamReaderService {
 	    langQuery.language(langs);
 	    String[] keywords = { "wine", "vino" };
 	    langQuery.track(keywords);
-	    stream.filter(langQuery);
+	    stream.filter(langQuery);*/
 	    
 	    //non stream
 	    //Query langQuery = new Query("lang:en AND barbie");
