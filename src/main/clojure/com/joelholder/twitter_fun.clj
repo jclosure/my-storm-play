@@ -17,4 +17,10 @@
 (defn run-topology []
   (. TwitterFunTopology main (make-array String 0)))
 
+(defn -main 
+  ([]
+  (run-topology))
+  ([args]
+  (run-topology args)))
+
 ;; C-c M-n on this buffer

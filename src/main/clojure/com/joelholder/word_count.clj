@@ -94,7 +94,8 @@
     TOPOLOGY-WORKERS 3}
    (mk-topology)))
 
-(defn -main
+;; aka. -main
+(defn run-topology
   ([]
    (run-local!))
   ([name]
