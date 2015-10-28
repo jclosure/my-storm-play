@@ -3,7 +3,7 @@
   :url "http://joelholder.com"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :main com.joelholder.word-count
+  :main com.joelholder.twitter-fun
   :source-paths ["src/main/clojure"]
   :test-paths ["src/test/clojure"]
   :java-source-paths ["src/main/java"]

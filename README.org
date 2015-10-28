@@ -8,7 +8,7 @@ Ruby, and Javascript as components within Storm topologies.  As I
 build this framework out, please feel free to fork it and adapt it to
 your needs.
 
-* Run Java
+* Run from Java
 
 ** Twitter StreamReaderService
 
@@ -28,7 +28,7 @@ twitter stream.
 
 *** TwitterFunTopology.main
 
-Captures:
+Captures the following:
 
 Rolling filtered tweet stream, e.g. keyword tracking, location,
 language
@@ -39,11 +39,16 @@ Rolling hashtags ranking
 
 Rolling entity feed ranking
 
-* Run Clojure
 
-** Word Count
+* Run from Clojure
 
-=word_count.clj= (-main)
+** CLI
+
+lein run
+
+Or
+
+mvn clojure:run
 
 ** Run The Java Code From Clojure (nRepl)
 
@@ -168,7 +173,7 @@ Got tweet:So how have I not heard of the wine4.me app?? Cognitive wine
 selection makes total sense. #IBMWatson #ibminsight
 #+end_example
 
-** GeoFencing
+** Geography
 
 #+begin_src java
 
