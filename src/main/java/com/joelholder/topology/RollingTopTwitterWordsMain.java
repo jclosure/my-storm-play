@@ -170,10 +170,8 @@ public class RollingTopTwitterWordsMain {
 		} catch (Exception ex) {
 			LOG.error(ex);
 		} finally {
-			// ensure we completely exit the vm's runtime
-			// give it a few seconds to shutdown the topo
-			Thread.sleep(5000);
-			Runtime.getRuntime().halt(0);
+			/*//not nec unless you have an open stream in a spout
+			Runtime.getRuntime().halt(0);*/
 		}
 	}
 }

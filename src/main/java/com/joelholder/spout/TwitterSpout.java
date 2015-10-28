@@ -118,18 +118,18 @@ public class TwitterSpout extends BaseRichSpout {
 
 		};
 
-		TwitterStream twitterStream = new TwitterStreamFactory(
+		_twitterStream = new TwitterStreamFactory(
 				new ConfigurationBuilder().setJSONStoreEnabled(true).build())
 				.getInstance();
 
-		twitterStream.addListener(listener);
-		twitterStream.setOAuthConsumer(consumerKey, consumerSecret);
+		_twitterStream.addListener(listener);
+		_twitterStream.setOAuthConsumer(consumerKey, consumerSecret);
 		AccessToken token = new AccessToken(accessToken, accessTokenSecret);
-		twitterStream.setOAuthAccessToken(token);
+		_twitterStream.setOAuthAccessToken(token);
 		
 		// sample if no query provided
 		if (query == null) {
-			twitterStream.sample();
+			_twitterStream.sample();
 		}
 		else {
 
@@ -138,7 +138,7 @@ public class TwitterSpout extends BaseRichSpout {
 				query.locations(geoFencing);
 			
 			// filter for query
-			twitterStream.filter(query);
+			_twitterStream.filter(query);
 		}
 
 	}
@@ -158,8 +158,10 @@ public class TwitterSpout extends BaseRichSpout {
 
 	@Override
 	public void close() {
-		if (_twitterStream != null)
-			_twitterStream.shutdown();
+
+		_twitterStream.cleanUp();
+		_twitterStream.shutdown();
+
 	}
 
 	@Override

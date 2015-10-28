@@ -14,7 +14,7 @@
     (Thread/sleep 60000)
     ))
 
-(defn run-topo []
+(defn run-topology []
   (. TwitterFunTopology main (make-array String 0)))
 
 ;; C-c M-n on this buffer

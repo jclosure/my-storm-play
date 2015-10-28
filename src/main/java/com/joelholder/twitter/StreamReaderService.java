@@ -22,10 +22,11 @@ public class StreamReaderService {
 	
 	public static final Logger LOG = Logger.getLogger(StreamReaderService.class);
 	
-	public void readTwitterFeed() throws TwitterException {
-
+	
+	public TwitterStream readTwitterFeed() throws TwitterException {
+		
 		TwitterStream stream = TwitterStreamBuilderUtil.getStream();
-
+		
 		StatusListener listener = new StatusListener() {
 
 			public void onException(Exception e) {
@@ -136,5 +137,10 @@ public class StreamReaderService {
 	    //non stream
 	    //Query langQuery = new Query("lang:en AND barbie");
 		
+		
+		// return the stream to calling code
+		return stream;
 	}
+
+	
 }
