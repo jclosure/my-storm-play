@@ -99,7 +99,7 @@ Then you can =(run-toplogy)=, etc..
 
 #+end_src
 
-*** output
+*** Output
 
 #+begin_example
 Got tweet:I adore this concept. :D not sure about it being by barbie but what the hey.  https://t.co/nceAEPnYdR
@@ -136,7 +136,7 @@ erguida.
 
 #+end_src
 
-*** output 
+*** Output 
 
 #+begin_example
 Got tweet:@_SofiaBravo_SNM ya me parecía , seguro te metieron pastillas al vino como a vos tg y quedaste duracel
