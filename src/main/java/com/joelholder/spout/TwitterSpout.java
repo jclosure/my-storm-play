@@ -158,7 +158,8 @@ public class TwitterSpout extends BaseRichSpout {
 
 	@Override
 	public void close() {
-		_twitterStream.shutdown();
+		if (_twitterStream != null)
+			_twitterStream.shutdown();
 	}
 
 	@Override

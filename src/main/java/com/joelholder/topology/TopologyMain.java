@@ -12,7 +12,7 @@ import backtype.storm.topology.TopologyBuilder;
 public class TopologyMain {
 
 	public static String TOPOLOGY_NAME = "My Cool Topology";
-	public static int SLEEP_IN_SECONDS = 4;
+	public static int SLEEP_IN_SECONDS = 10;
 	
 	public static void main(String[] args) throws InterruptedException {
 		try {
@@ -37,12 +37,18 @@ public class TopologyMain {
 			
 			Thread.sleep(SLEEP_IN_SECONDS * 1000);
 			
-			cluster.killTopology(TOPOLOGY_NAME );
+			cluster.killTopology(TOPOLOGY_NAME);
 			cluster.shutdown();
 			
 		} catch(Exception ioe) {
 			System.out.println("################ Exception thrown ################");
 			ioe.printStackTrace();
+		}
+		finally {
+			// ensure we completely exit the vm's runtime
+			// give it a few seconds to shutdown the topo
+			Thread.sleep(5000);
+			Runtime.getRuntime().halt(0);
 		}
 	}
 

@@ -108,15 +108,24 @@ public class TwitterFunTopology {
             
 	            cluster.submitTopology(topologyName, conf, builder.createTopology());
 	
-	            Utils.sleep(240000);
+	            Utils.sleep(30000);
+	            
+	            cluster.killTopology(topologyName);
 	            
 	            cluster.shutdown();
 	            
-	            cluster.killTopology(topologyName);
+	            
             }
             catch (Exception ex)
             {
             	ex.printStackTrace();
+            }
+            finally {
+            	
+            	// ensure we completely exit the vm's runtime
+    			// give it a few seconds to shutdown the topo
+    			Thread.sleep(5000);
+    			Runtime.getRuntime().halt(0);
             }
         }
     }
