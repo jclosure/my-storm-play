@@ -9,15 +9,15 @@ import io.vertx.ext.web.handler.StaticHandler;
 import io.vertx.ext.web.handler.sockjs.BridgeOptions;
 import io.vertx.ext.web.handler.sockjs.PermittedOptions;
 import io.vertx.ext.web.handler.sockjs.SockJSHandler;
+import com.joelholder.vertx.util.Runner;
 
 import java.util.Random;
 
-import com.joelholder.vertx.util.Runner;
 
-public class Dashboard extends AbstractVerticle {
+public class Dashboard2 extends AbstractVerticle {
   // Convenience method so you can run it in your IDE
   public static void main(String[] args) {
-    Runner.runExample(Dashboard.class);
+    Runner.runExample(Dashboard2.class);
   }
 
   @Override

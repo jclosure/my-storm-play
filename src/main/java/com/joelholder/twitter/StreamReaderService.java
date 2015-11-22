@@ -1,12 +1,14 @@
 package com.joelholder.twitter;
 
 
+import java.util.concurrent.FutureTask;
 import java.util.stream.Stream;
 
 import org.apache.log4j.Logger;
 
 import com.joelholder.topology.RollingTopTwitterWordsMain;
 
+import rx.Observable;
 import twitter4j.FilterQuery;
 import twitter4j.Query;
 import twitter4j.StallWarning;
@@ -21,11 +23,12 @@ import twitter4j.TwitterStream;
 public class StreamReaderService {
 	
 	public static final Logger LOG = Logger.getLogger(StreamReaderService.class);
-	
+			   
 	
 	public TwitterStream readTwitterFeed() throws TwitterException {
 		
 		TwitterStream stream = TwitterStreamBuilderUtil.getStream();
+		
 		
 		StatusListener listener = new StatusListener() {
 
@@ -42,7 +45,7 @@ public class StreamReaderService {
 	
 			public void onStatus(Status status) {
 				
-				System.out.println("Got tweet:" + status.getText());
+				//System.out.println("Got tweet:" + status.getText());
 				
 				TwitterStreamBean bean = new TwitterStreamBean();
 				String username = status.getUser().getScreenName();
@@ -56,6 +59,7 @@ public class StreamReaderService {
 				}
 				String content = status.getText();
 				bean.setContent(content);
+				
 			}
 
 
@@ -75,6 +79,8 @@ public class StreamReaderService {
 		};
 
 
+		
+		
 		stream.addListener(listener);
 		
 		// sample firehose
@@ -141,6 +147,8 @@ public class StreamReaderService {
 		// return the stream to calling code
 		return stream;
 	}
+
+
 
 	
 }

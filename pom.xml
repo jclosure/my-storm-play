@@ -50,6 +50,13 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- rxjava -->
+		<dependency>
+			<groupId>io.reactivex</groupId>
+			<artifactId>rxjava</artifactId>
+			<version>1.0.16</version>
+		</dependency>
+
 		<!-- vertx -->
 		<dependency>
       		<groupId>io.vertx</groupId>
