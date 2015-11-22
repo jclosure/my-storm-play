@@ -13,6 +13,7 @@
 		<log4j-over-slf4j.version>1.6.6</log4j-over-slf4j.version>
 		<log4j.version>2.1</log4j.version>
 		<slf4j.version>1.7.7</slf4j.version>
+		<vertx.version>3.1.0</vertx.version>
 	</properties>
 
 	<dependencies>
@@ -48,6 +49,23 @@
 			<version>2.6.0</version>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- vertx -->
+		<dependency>
+      		<groupId>io.vertx</groupId>
+      		<artifactId>vertx-core</artifactId>
+      		<version>${vertx.version}</version>
+    	</dependency>
+    	<dependency>
+	      <groupId>io.vertx</groupId>
+	      <artifactId>vertx-web</artifactId>
+	      <version>${vertx.version}</version>
+	    </dependency>
+	    <dependency>
+	      <groupId>io.vertx</groupId>
+	      <artifactId>vertx-dropwizard-metrics</artifactId>
+	      <version>${vertx.version}</version>
+	    </dependency>
 
 		<!-- twitter4j -->
 		<dependency>
@@ -146,6 +164,8 @@
 			<artifactId>kafka-clients</artifactId>
 			<version>${kafka.version}</version>
 		</dependency>
+		
+
 	</dependencies>
 
 

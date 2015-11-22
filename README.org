@@ -229,6 +229,38 @@ Got tweet:@emelieperssson Tack för RT!
 #+end_example
 
 
+* Vert.x
+
+** Run Java
+
+*** compiled
+vertx run com.joelholder.vertx.Dashboard -cp target/my-twitter-play-0.0.1-SNAPSHOT.jar:.
+
+*** dynamic
+cd src/main/java/com/joelholder/vertx/
+vertx run com.joelholder.vertx.Dashboard -cp ../../../../../../target/my-twitter-play-0.0.1-SNAPSHOT.jar:.
+
+** Run Ruby
+
+cd src/main/rb/com/joelholder/vertx/
+vertx run dashboard.rb -cp ../../../../../../target/my-twitter-play-0.0.1-SNAPSHOT.jar:.
+
+** Run JavaScript
+
+cd src/main/js/com/joelholder/vertx/
+vertx run dashboard.js -cp ../../../../../../target/my-twitter-play-0.0.1-SNAPSHOT.jar:.
+
+
+** Run Groovy
+
+cd src/main/groovy/com/joelholder/vertx/
+vertx run dashboard.groovy -cp ../../../../../../target/my-twitter-play-0.0.1-SNAPSHOT.jar:.
+
+** Derived from: 
+
+https://github.com/vert-x3/vertx-examples
+
+https://github.com/vert-x3/vertx-examples/tree/master/metrics-examples
 
 * Resources
 
