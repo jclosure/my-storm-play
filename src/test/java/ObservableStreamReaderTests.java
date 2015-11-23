@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.joelholder.twitter.ObservableStreamReaderService;
+import com.joelholder.twitter.ObservableStreamReader;
 import com.joelholder.twitter.StreamReaderService;
 import com.joelholder.twitter.TwitterStreamBean;
 
@@ -15,7 +15,7 @@ import twitter4j.FilterQuery;
 import twitter4j.TwitterException;
 import twitter4j.TwitterStream;
 
-public class StreamReaderServiceTests {
+public class ObservableStreamReaderTests {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -36,7 +36,7 @@ public class StreamReaderServiceTests {
 	@Test
 	public void test() throws InterruptedException {
 		
-		ObservableStreamReaderService service = new ObservableStreamReaderService();
+		ObservableStreamReader service = new ObservableStreamReader();
 		
 		
 		//FilterQuery filterQuery = filterGeography();
@@ -52,7 +52,7 @@ public class StreamReaderServiceTests {
 			service.start(filterQuery);
 			Thread.sleep(30000);
 			service.stop();
-			Thread.sleep(10);
+			
 		
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block

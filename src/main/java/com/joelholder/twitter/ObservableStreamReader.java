@@ -26,9 +26,9 @@ import twitter4j.TwitterStreamFactory;
 
 
 
-public class ObservableStreamReaderService {
+public class ObservableStreamReader {
 	
-	public static final Logger LOG = Logger.getLogger(ObservableStreamReaderService.class);
+	public static final Logger LOG = Logger.getLogger(ObservableStreamReader.class);
 	
 	TwitterStream stream;
 	
@@ -42,6 +42,12 @@ public class ObservableStreamReaderService {
 		if (stream != null) {
 			stream.cleanUp();
 			stream.shutdown();
+			try {
+				Thread.sleep(1);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
