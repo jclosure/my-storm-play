@@ -20,11 +20,11 @@ import twitter4j.TwitterException;
 /*
  * @author <a href="http://tfox.org">Tim Fox</a>
  */
-public class Server extends AbstractVerticle {
+public class SimpleServer extends AbstractVerticle {
 
   // Convenience method so you can run it in your IDE
   public static void main(String[] args) {
-    Runner.runExample(Server.class);
+    Runner.runExample(SimpleServer.class);
   }
   
   ObservableStreamReader service = new ObservableStreamReader();

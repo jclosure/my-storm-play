@@ -231,6 +231,12 @@ Got tweet:@emelieperssson Tack för RT!
 
 * Vert.x
 
+* Surface tweets to webpage
+
+run SimplerServer.main()
+
+* Metrics
+
 ** Run Java
 
 *** compiled
@@ -261,6 +267,16 @@ vertx run dashboard.groovy -cp ../../../../../../target/my-twitter-play-0.0.1-SN
 https://github.com/vert-x3/vertx-examples
 
 https://github.com/vert-x3/vertx-examples/tree/master/metrics-examples
+
+
+* TODO:
+
+** Evaluate Esper for CEP
+
+http://www.espertech.com/products/esper.php
+
+** Get storm running inside Vertx
+
 
 * Resources
 
