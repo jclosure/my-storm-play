@@ -271,6 +271,10 @@ https://github.com/vert-x3/vertx-examples/tree/master/metrics-examples
 
 * TODO:
 
+** Study this project
+
+https://github.com/johanhaleby/perfect-storm
+
 ** Evaluate Esper for CEP
 
 http://www.espertech.com/products/esper.php
