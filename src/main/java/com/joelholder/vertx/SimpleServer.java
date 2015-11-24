@@ -87,9 +87,9 @@ public class SimpleServer extends AbstractVerticle {
 	private FilterQuery filterKeywords() {
 		// filter keywords
 		FilterQuery qry = new FilterQuery();
-		// String[] keywords = { "football" };
+		 String[] keywords = { "vt", "football" };
 		//String[] keywords = { "barbie", "mlp", "monster high" };
-		String[] keywords = { "terrorism", "paris", "isis" };
+		//String[] keywords = { "terrorism", "paris", "isis" };
 		qry.track(keywords);
 		return qry;
 	}
